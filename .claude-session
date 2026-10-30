@@ -1,2 +1,3 @@
+# Where a Claude Code session for this repo should run.
+# No session of its own: built and maintained from the obsidian session.
 target=host
-rc=obsidian (built from Obsidian PA session)
