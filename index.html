@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>TSEF 2026 Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a conference badge-lanyard feel. Day tabs, then either a ranked plan list with inline "same time elsewhere" peeks, or a two-lane time grid (Main | X) drawn to scale. */
+:root{
+  --bg:#f6f5f1; --surface:#ffffff; --ink:#16161a; --muted:#6a6a73; --line:#e2e0d8;
+  --main:#1f4fd8; --main-soft:#e6ecfd; --x:#d2521b; --x-soft:#fcebe2;
+  --must:#0f8a5f; --part:#b7791f; --skip:#9a9aa3;
+  --now:#d62d5b;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans Thai", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121216; --surface:#1c1c22; --ink:#f1f0ec; --muted:#a2a2ad; --line:#2e2e37;
+  --main:#7d9dff; --main-soft:#1d2645; --x:#ff8a57; --x-soft:#3a2219;
+  --must:#3ccf95; --part:#e5b056; --skip:#6d6d78; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121216; --surface:#1c1c22; --ink:#f1f0ec; --muted:#a2a2ad; --line:#2e2e37;
+  --main:#7d9dff; --main-soft:#1d2645; --x:#ff8a57; --x-soft:#3a2219;
+  --must:#3ccf95; --part:#e5b056; --skip:#6d6d78; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:20px 120px}
+header h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,6vw,40px);line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+header p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px 10px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{font:600 14px var(--body);border:0;background:none;color:var(--muted);padding:7px 12px;border-radius:7px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.seg button small{display:block;font:500 11px var(--mono);opacity:.8}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:500 12px var(--mono);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:4px 9px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+button:focus-visible{outline:2px solid var(--main);outline-offset:2px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+/* plan list */
+.slot{display:grid;grid-template-columns:58px 1fr;gap:12px;padding-block:10px;border-bottom:1px dashed var(--line)}
+.slot .t{font:500 13px var(--mono);color:var(--muted);padding-top:3px;font-variant-numeric:tabular-nums}
+.card{min-width:0;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--main);border-radius:10px;padding:10px 12px;cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit;display:block}
+.card.x{border-left-color:var(--x)}
+.card .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font:500 11px var(--mono);color:var(--muted);margin-bottom:3px}
+.card h3{font:600 15px/1.35 var(--body);margin:0}
+.card p{margin:4px 0 0;font-size:13.5px;color:var(--muted)}
+.card .note{color:var(--part)}
+.stg{font:600 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--main-soft);color:var(--main)}
+.stg.x{background:var(--x-soft);color:var(--x)}
+.v{font:600 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:5px;border:1px solid currentColor}
+.v.must{color:var(--must)} .v.go{color:var(--ink)} .v.part{color:var(--part)} .v.alt{color:var(--muted)} .v.skip{color:var(--skip)}
+.tg{font:500 10.5px var(--mono);color:var(--muted)}
+.peek{margin-top:8px}
+.peek summary{cursor:pointer;font:600 12.5px var(--body);color:var(--x);list-style:none;display:inline-flex;gap:6px;align-items:center;padding:4px 0}
+.peek summary.m{color:var(--main)}
+.peek summary::-webkit-details-marker{display:none}
+.peek summary::before{content:"⇄";font-family:var(--mono)}
+.peek[open] summary::before{content:"×"}
+.peek .alts{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.peek .card{background:var(--bg)}
+.dim{opacity:.38}
+/* grid */
+.grid{display:grid;grid-template-columns:44px 1fr 1fr;gap:6px;position:relative}
+.lanehead{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:6px;border-radius:8px;position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--barh,120px));z-index:3}
+.lanehead.m{background:var(--main-soft);color:var(--main)} .lanehead.x{background:var(--x-soft);color:var(--x)}
+.axis,.lane{position:relative}
+.axis span{position:absolute;right:4px;font:500 11px var(--mono);color:var(--muted);transform:translateY(-50%);font-variant-numeric:tabular-nums}
+.lane{background:repeating-linear-gradient(to bottom,var(--line) 0 1px,transparent 1px var(--hr));border-radius:8px}
+.blk{position:absolute;left:0;right:0;margin:1px 0;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--main);border-radius:7px;padding:4px 7px;overflow:hidden;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.blk.x{border-left-color:var(--x)}
+.blk.pick{background:var(--main-soft);border-color:var(--main)}
+.blk.x.pick{background:var(--x-soft);border-color:var(--x)}
+.blk.brk{background:transparent;border-style:dashed;border-left-width:1px;cursor:default;color:var(--muted)}
+.blk b{display:block;font:600 12.5px/1.25 var(--body);overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.blk i{font:500 10.5px var(--mono);font-style:normal;color:var(--muted);display:block}
+.blk .star{color:var(--must)}
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgb(0 0 0 / .4);z-index:20}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:var(--surface);border-top-left-radius:16px;border-top-right-radius:16px;max-height:82vh;overflow:auto;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 40px rgb(0 0 0 / .25)}
+.sheet .in{max-width:760px;margin:0 auto}
+.sheet h2{font:800 22px/1.15 var(--display);margin:8px 0 2px;text-wrap:balance}
+.sheet .th{color:var(--muted);margin:0 0 10px;font-size:14px}
+.sheet ul{padding-left:18px;margin:6px 0 12px}
+.sheet li{margin:2px 0;font-size:14px}
+.sheet h4{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 4px}
+.close{float:right;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:6px 10px;font:600 13px var(--body);cursor:pointer}
+/* now marker */
+.nowl{position:absolute;left:0;right:0;height:0;border-top:2px solid var(--now);z-index:2;pointer-events:none}
+.nowl.off{border-top-style:dashed;opacity:.7}
+.axis .nowt{position:absolute;right:0;transform:translateY(-50%);background:var(--now);color:#fff;font:600 10.5px var(--mono);padding:1px 4px;border-radius:4px;z-index:3;font-variant-numeric:tabular-nums}
+.nowrow{display:flex;align-items:center;gap:8px;font:600 12px var(--mono);color:var(--now);padding-block:6px}
+.nowrow::after{content:"";flex:1;border-top:2px solid var(--now)}
+.nowrow.off{opacity:.75}
+.nowrow.off::after{border-top-style:dashed}
+.onnow{font:600 10.5px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--now);color:#fff}
+.clock{font:500 12.5px var(--mono);color:var(--muted)}
+.clock b{color:var(--now)}
+footer{margin-top:28px;color:var(--muted);font-size:12.5px}
+footer a{color:var(--main)}
+@media (max-width:520px){.slot{grid-template-columns:46px 1fr;gap:8px}.seg button{padding:6px 9px}}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:up .18s ease-out}@keyframes up{from{transform:translateY(24px);opacity:.6}}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>THE STANDARD Economic Forum 2026</h1>
+  <p>A suggested plan · 4–6 Nov 2026 · Paragon Hall, Siam Paragon · Main Stage + X Stage</p>
+</header>
+
+<div class="bar" id="bar">
+  <div class="row">
+    <div class="seg" role="group" aria-label="Day" id="days"></div>
+    <div class="seg" role="group" aria-label="View" id="views">
+      <button id="v-plan" aria-pressed="true">My plan</button>
+      <button id="v-grid" aria-pressed="false">Both stages</button>
+    </div>
+  </div>
+  <div class="row" style="justify-content:space-between">
+    <div class="tags" id="tags" aria-label="Highlight topic"></div>
+    <div class="legend"><span class="clock" id="clock"></span><span><i class="dot" style="background:var(--main)"></i>Main Stage</span><span><i class="dot" style="background:var(--x)"></i>X Stage</span></div>
+  </div>
+</div>
+
+<main id="out"></main>
+
+<footer>
+  Agenda from <a href="https://thestandard.co/thestandardeconomicforum2026/?lang=en" target="_blank" rel="noopener">thestandard.co</a>, read 30 Oct 2026. Times can change; check the official page on the day.
+  Tap any session to see speakers and why it's in the plan. ⇄ shows what's on at the same time on the other stage.
+</footer>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sh-t"><div class="in" id="sheetin"></div></div>
+
+<script>
+const DATA = {"d1m": [{"time": "09.00 - 09.10", "name": "Welcome Speech กล่าวต้อนรับ", "speakers": ["Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["go", [], "Arrive early: registration and seats fill fast for the PM keynote.", ""]}, {"time": "09.10 - 09.25", "name": "Opening Keynote Address กล่าวเปิดงานและปาฐกถาพิเศษ", "speakers": ["Anutin Charnvirakul — Prime Minister and Minister of Interior"], "note": ["go", ["Work"], "Government's economic agenda from the PM. Context for every policy session after it.", ""]}, {"time": "09.40 - 10.05", "name": "Thailand’s Path to High-Income Status เส้นทางไทยสู่ประเทศรายได้สูง", "speakers": ["Dr. Ekniti Nitithanprapas — Deputy Prime Minister and Minister of Finance", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["must", ["Work"], "Finance Minister on the path to high income: fiscal plan, growth targets. Core macro context for work.", ""]}, {"time": "10.05 - 10.30", "name": "Fireside Chat by Krungthai Bank", "speakers": ["Payong Srivanich — Chairman of the Thai Bankers' Association and Chief Executive Officer of Krungthai Bank", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["go", ["Work"], "Thai Bankers' Association chair on credit, digital banking and payments. Relevant to payments and fraud-data work.", ""]}, {"time": "10.30 - 10.55", "name": "Redefining Thailand’s Place In The World วางหมากไทยใหม่ ในระเบียบโลกที่เปลี่ยนไป", "speakers": ["Parnpree Bahiddha-Nukara — Chairman of the Advisory Board to the Deputy Prime Minister and Minister of Foreign Affairs", "Nattha Komolvadhin — News Director, THE STANDARD"], "note": ["skip", [], "Foreign policy positioning. Lowest fit of the morning: use it as your break.", ""]}, {"time": "10.55 - 11.10", "name": "Building Thailand’s Future Today: Higher Value, Better Jobs สร้างอนาคตไทยวันนี้ ยกระดับเศรษฐกิจ สร้างงานคุณภาพ", "speakers": ["Stephen N. Ndegwa — World Bank Division Director for Thailand and Myanmar"], "note": ["must", ["Work"], "World Bank Thailand on productivity and jobs. Their diagnostics and data are reusable for research.", ""]}, {"time": "11.10 - 11.25", "name": "Thailand–EU FTA: Trade, Green Transition & Growth เปิดโอกาสการค้าไทย–ยุโรป เติบโตในเศรษฐกิจสีเขียว", "speakers": ["H.E. Mrs. Luisa Ragher — Ambassador Extraordinary and Plenipotentiary of the European Union to the Kingdom of Thailand"], "note": ["go", ["Work"], "Thailand–EU FTA: trade and green-transition rules (CBAM-type exposure).", ""]}, {"time": "11.25 - 11.40", "name": "Japan–Thailand: Co-Creating the Next Economy ญี่ปุ่น–ไทย ร่วมสร้างเศรษฐกิจยุคใหม่", "speakers": ["H.E. Mr. Otaka Masato — Ambassador Extraordinary and Plenipotentiary of Japan to the Kingdom of Thailand"], "note": ["go", ["Work"], "Japan–Thailand investment. Short, 15 min; stay seated.", ""]}, {"time": "11.40 - 12.05", "name": "The China Wave: Rethinking the Global Order คลื่นการเปลี่ยนแปลงจากจีน กับระเบียบโลกใหม่", "speakers": ["Zhang Weiwei — Dean of China Institute, Fudan University"], "note": ["go", ["Work"], "Zhang Weiwei on China and the global order. Macro and trade-shift framing.", ""]}, {"time": "12.05 - 13.10", "name": "LUNCH BREAK", "speakers": [], "note": null}, {"time": "13.10 - 13.30", "name": "Powering Thailand: Energy Reform for a New Economy ปฏิรูปพลังงานไทย ลดต้นทุน เปิดทางเศรษฐกิจใหม่", "speakers": ["Akanat Promphan — Minister of Energy", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["go", ["Work"], "Energy reform and power prices: a driver of inflation and cost of living.", ""]}, {"time": "13.30 - 13.55", "name": "Opportunity Thailand: From Thailand Advantage to Thailand Next Growth Engine โอกาสประเทศไทย: เปลี่ยนแต้มต่อ เป็นพลังขับเคลื่อนเศรษฐกิจใหม่", "speakers": ["Suphachai Chearavanont — Senior Vice Chairman, Charoen Pokphand Group Chief Executive Officer, Arise Ventures Group"], "note": ["go", ["Work"], "CP's Suphachai on Thailand's next growth engine. Big-picture private-sector view.", "Swap to X Stage if you'd rather hear about artists and IP."]}, {"time": "13.55 - 14.20", "name": "Securing Thai Energy Advantage เปลี่ยนความมั่นคงพลังงานสู่แต้มต่อของไทย", "speakers": ["Dr. Kongkrapan Intarajang — Chief Executive Officer and President, PTT Public Company Limited"], "note": ["skip", [], "PTT on energy security. Skip for T-Pop on X Stage.", ""]}, {"time": "14.20 - 14.45", "name": "Modernizing the Grid, Powering the Sustainable Future ยกระดับโครงข่ายไฟฟ้า รองรับเศรษฐกิจแห่งอนาคต", "speakers": ["Dr. Narin Phoawanich — Deputy Governor, Electricity Generating Authority of Thailand (EGAT)", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["skip", [], "EGAT grid. Skip; you're on X Stage until 14.45.", ""]}, {"time": "14.45 - 15.10", "name": "Design Before Disaster: Building Resilient Cities ออกแบบก่อนภัยมา สร้างเมืองที่รับมือวิกฤตได้", "speakers": ["Miho Mazereeuw — Director, Urban Risk Lab and Associate Professor of Architecture and Planning, Massachusetts Institute of Technology"], "note": ["must", ["Work"], "MIT Urban Risk Lab on designing cities before disasters. Best match on the agenda for climate and flood-risk work.", ""]}, {"time": "15.10 - 15.55", "name": "The Data Center Boom: What Does Thailand Gain? ดาต้าเซ็นเตอร์บูม ไทยได้อะไร และต้องแลกกับอะไร", "speakers": ["Dr. Somkiat Tangkitvanich — President of Thailand Development Research Institute", "Nopadej Karnasuta — President - Thailand, Malaysia and Energy & Industrial Solutions Business B.Grimm Power Public Company Limited", "Smith Banomyong — Chief Financial Officer and Chief Strategy Officer, Gulf Development Public Company Limited (GULF)", "Ponlawut Songsakun — THE STANDARD"], "note": ["must", ["Work"], "TDRI, Gulf and B.Grimm on the data-center boom. Power, water and who gains. Relevant to data infrastructure at work.", "Clashes with The Creator-Led Economy on X Stage at 15.30."]}, {"time": "15.55 - 16.15", "name": "COFFEE BREAK", "speakers": [], "note": ["skip", [], "", ""]}, {"time": "16.15 - 16.40", "name": "Empowering Thai Businesses with New Capabilities for the Intelligent Economy พลิกเกมธุรกิจไทย สู่ขีดความสามารถใหม่ในยุคเศรษฐกิจอัจฉริยะ", "speakers": ["Phupa Akavipat — Chief Enterprise Business Officer", "Nattha Komolvadhin — News Director, THE STANDARD"], "note": ["alt", ["Work"], "AIS on enterprise AI and connectivity.", "You're on X Stage for the AI block."]}, {"time": "16.40 - 17.25", "name": "Thai Food’s Next Move: New Markets, Higher Value ก้าวต่อไปของอาหารไทย เปิดตลาดใหม่ ยกระดับมูลค่า", "speakers": ["Dr. Poj Aramwattananont — Chairman of the Thai Chamber of Commerce and the Board of Trade of Thailand", "Dr. Visit Limluecha — Vice Chairman, Thai Chamber of Commerce and President, Thai Future Food Trade Association", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["alt", ["Work"], "Thai food exports and value. Agri link to climate-risk work.", "Clashes with the AI block on X Stage."]}], "d1x": [{"time": "13.30 - 14.00", "name": "Let Thai Creativity Bloom ผลักดันศิลปินอย่างไร ให้ศิลปะไทยเบ่งบาน", "speakers": ["Prapassorn Kanjanasoot — Artist & Founder, Teayii", "Porntanapat Pechruang — THE STANDARD"], "note": ["alt", ["Personal"], "An artist-founder on growing Thai art and IP. Useful for game art and channel visuals.", "Clashes with Suphachai on Main Stage."]}, {"time": "14.00 - 15.00", "name": "From Local Stars to Global Success ส่งออก T-Pop ไทยโตไกลระดับโลก", "speakers": ["Nichapat Suphap — Founder of The Venture Management", "Wassana Nekkham — CEO of Leaydodee Studio Co.,ltd.", "Rattaroj Jitpana — THE STANDARD"], "note": ["part", ["Personal"], "Taking T-Pop global: building a fandom and exporting IP. Same playbook as growing your AI channels.", "Leave at 14.45 for the MIT session on Main Stage."]}, {"time": "15.00 - 15.30", "name": "Break", "speakers": [], "note": ["skip", [], "", ""]}, {"time": "15.30 - 16.00", "name": "The Creator-Led Economy ทุกคนเป็นเจ้าของธุรกิจได้? โอกาสใหม่ของไทยในโลก Content Commerce", "speakers": ["Thime Pichitsurakij — Chief Executive Officer of Whitelab Essentials", "Charkorn Chaiphet — THE STANDARD"], "note": ["alt", ["Personal"], "Creator-led commerce: content as a business. Strong fit for your AI channels.", "Clashes with the Data Center Boom on Main Stage. Pick this one if channels matter more that day."]}, {"time": "16.00 - 16.25", "name": "Amazon Quick : AI Transformation In Action จากกลยุทธ์สู่การลงมือทำ พลิกโฉมธุรกิจด้วย AI", "speakers": ["Chareef Madsam — Head of Professional Services Com7 Public Company Limited"], "note": ["must", ["Work", "Personal"], "Amazon Quick: an enterprise AI rollout in practice. Compare with AI rollouts at work.", ""]}, {"time": "16.25 - 17.25", "name": "Between AI Dystopia & Utopia: เมื่อ AI อาจครองโลก เราจะอยู่อย่างไร", "speakers": ["Jirayut Srupsrisopa — Founder of Bitkub Capital Group Holdings Co., Ltd.", "Kasidis Satangmongkol — Digital Writer at Datarockie", "Naphat Pattayanun — Co-Founder of Khui AI", "Rattaroj Jitpana — THE STANDARD"], "note": ["must", ["Personal", "Work"], "Bitkub's Jirayut, Datarockie (data-science educator) and Khui AI on where AI is heading. Best AI panel of Day 1.", ""]}], "d2m": [{"time": "09.50 - 10.15", "name": "The Future of Thai Finance: Trust, Transparency & Growth อนาคตการเงินไทย โปร่งใส เชื่อมั่น และเติบโต", "speakers": ["Vitai Ratanakorn — Governor of the Bank of Thailand"], "note": ["must", ["Work"], "Bank of Thailand Governor on trust, transparency and growth. Headline view on Thai finance. Don't miss it.", ""]}, {"time": "10.15 - 10.40", "name": "From Survival to Supply-Chain Power ทางรอดใหม่ของ SME ไทย", "speakers": ["Kattiya Indaravijaya — CEO, KASIKORNBANK"], "note": ["go", ["Work"], "KBank CEO on SME survival and supply-chain finance. Fits SME credit and payment-data research.", ""]}, {"time": "10.40 - 11.25", "name": "ASEAN: The World’s Next Growth Engine? อาเซียนจะเป็นเครื่องยนต์เศรษฐกิจใหม่ของโลกได้อย่างไร", "speakers": ["Jeep Kline — Founder & Managing Partner, Raisewell Ventures and Professional Faculty, UC Berkeley", "Gita Wirjawan — Founder and Chairman Ancora Group", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["go", ["Work"], "Gita Wirjawan and Jeep Kline: can ASEAN be the next growth engine?", "Education creators on X Stage are the alternative."]}, {"time": "11.25 - 13.05", "name": "LUNCH BREAK", "speakers": [], "note": ["skip", [], "", ""]}, {"time": "13.05 - 13.30", "name": "From Investment to Impact: Building Thai Prosperity จากเม็ดเงินลงทุน สู่ความมั่งคั่งของคนไทย", "speakers": ["Narit Therdsteerasukdi — Secretary General, The Board of Investment of Thailand", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["part", ["Work"], "BOI on turning investment into prosperity.", "Leave at 13.25 for The AI Workforce Shift on X Stage."]}, {"time": "13.30 - 13.55", "name": "Microbiome: The Next Frontier of Health & Wellness Business ไมโครไบโอม พรมแดนใหม่แห่งอนาคตของธุรกิจสุขภาพและสุขภาวะ", "speakers": ["Dr. Yosep Ji — Amway Advisory Board / CEO and Co-Founder of HEM Pharma (South Korea)"], "note": ["skip", [], "Microbiome business. Low fit.", ""]}, {"time": "13.55 - 14.20", "name": "Reinventing New Capabilities for What’s Next สร้างความสามารถใหม่ เพื่อก้าวต่อไปในโลกที่เปลี่ยนแปลง", "speakers": ["Saravoot Yoovidhya — CEO, TCP Group"], "note": ["alt", [], "TCP (Red Bull) on building new capabilities.", "Clashes with The AI Workforce Shift."]}, {"time": "14.20 - 14.45", "name": "COFFEE BREAK", "speakers": [], "note": ["skip", [], "", ""]}, {"time": "14.45 - 15.30", "name": "Global Investment, Local Value: Making FDI Work for Thailand ทุนโลก มูลค่าไทย ทำอย่างไรให้คนไทยได้ประโยชน์จริง", "speakers": ["Dr. Santitarn Sathirathai — Vice Minister for Finance", "Ph.D. Veerayooth Kanchoochat — Member of the House of Representatives, Chairperson of the Standing Committee on Economic Development", "Yongyuth Pakduangjan — Assistant to the CEO - Investment Strategy and Government Affairs Delta Electronics (Thailand) PCL", "Siratthaya Isarabhakdi — Host of Morning Wealth, THE STANDARD WEALTH"], "note": ["part", ["Work"], "Deputy Finance Minister Santitarn and others on making FDI create local value.", "Join at 14.55, after AI-Native Enterprise."]}, {"time": "15.30 - 15.55", "name": "Co-creation of longevity economy ร่วมสร้างเศรษฐกิจอายุยืน: โอกาสธุรกิจไทยที่ต้องโตไปด้วยกัน", "speakers": ["Thienprasit Chaiyapatranun — President, Thai Hotel Association", "Preecha Sananvatananont — Chairman, Strategic Sub-Committee, Thailand Convention and Exhibition Bureau", "Ponlawut Songsakun — THE STANDARD"], "note": ["alt", [], "Longevity and wellness tourism economy.", "Clashes with The Next Political Crossroads."]}, {"time": "15.55-16.25", "name": "Humanoid Robots: From Labs to Real Work หุ่นยนต์ฮิวแมนนอยด์ จากห้องทดลองสู่โลกการทำงานจริง", "speakers": ["Mr. Huang Kun", "AGIBOT X2 Ultra", "Kenya Akama", "Channel Director of Asia Pacific Region, AGIBOT", "Correspondent, Nikkei Inc."], "note": ["must", ["Personal"], "AGIBOT humanoid robot, live on stage. Good footage and ideas for your AI channels and for game AI.", ""]}], "d2x": [{"time": "10.30 - 11.30", "name": "Reimagining Education Beyond the Classroom: เสียงจากครีเอเตอร์ยุคใหม่ การศึกษาไทยยุค AI และวิกฤติแรงงาน", "speakers": ["Dr. Makkaporn Kattiyathongkum — Medical Doctor Specializing in Anti-Aging Medicine and Sexual Medicine", "Possapon Charoenporn — Lecturer, Department of Geography, Faculty of Arts, Chulalongkorn University", "Pongpisuth Jongudomsuk — Founder of Farang Angmor", "Phupha Amornkijja — Founder of Phupha Tutor", "Rattaroj Jitpana — THE STANDARD"], "note": ["alt", ["Personal"], "Education creators (Farang Angmor, Phupha Tutor) on learning in the AI era. How Thai education channels grow.", "Clashes with the ASEAN panel."]}, {"time": "11.30 - 11.55", "name": "How AI Can Empower Thai People and Businesses ใช้ AI อย่างไร ให้คนไทยและธุรกิจไทยเก่งขึ้น", "speakers": ["Gritapat Setachanatip — Managing Partner, Messe Asia Co., Ltd.", "Bjoern Kempe, Ph.D. — Expos Asia Pte Ltd singapore", "Papassara Phetnaronk — THE STANDARD"], "note": ["go", ["Work", "Personal"], "How Thai people and businesses can use AI. Main Stage is at lunch, so nothing clashes.", ""]}, {"time": "13.25 - 14.10", "name": "The AI Workforce Shift แรงงานไทยจะไปทางไหน เมื่อ AI เปลี่ยนเกมธุรกิจ", "speakers": ["Dr.Napat Jatusripitak — CEO of ViaLink and Siametrics Consulting", "Pochara Arayakarnkul — Chief Executive Officer of Bluebik Group PLC.", "Saranee Sanguanruang — CEO & Founder of Flourish Digital Co., Ltd., the content creator behind Ladies of Digital Age (LDA)"], "note": ["must", ["Work"], "Siametrics economist Napat and Bluebik on how AI changes Thai jobs. Research-grade topic.", ""]}, {"time": "14.10 - 14.55", "name": "AI-Native Enterprise แค่ใช้ AI ไม่พอ องค์กรต้องเปลี่ยนให้แข่งขันได้", "speakers": ["Pakorn Suriyabhivadh — Senior Executive Vice President, Digital Business and Solutions PTT Oil and Retail Business Public Company Limited (OR)", "Yaboodee Chittikuladilok — Chief Data Officer, SCB DATAX Co., Ltd.", "Phiphat Prapapanpong — Head of Advanced Insights (AI), Bluebik Group Public Company Limited", "Warot Lilahajiva — Head of Management Consulting, Bluebik Group Public Company Limited", "Saranee Sanguanruang — CEO & Founder of Flourish Digital Co., Ltd., the content creator behind Ladies of Digital Age (LDA)"], "note": ["must", ["Work"], "SCB DATAX's Chief Data Officer and PTT OR on rebuilding the organisation around AI. Direct input for data teams at work.", ""]}, {"time": "14.55 - 15.30", "name": "Break", "speakers": [], "note": ["skip", [], "", ""]}, {"time": "15.30-16.30", "name": "The Next Political Crossroads ทางแยกใหม่การเมืองไทย", "speakers": ["Pongsakorn Kwanmuang — Democrat Party", "Pantira Monsumrith — People's Party", "Chayapon Malaniyom — THE STANDARD"], "note": ["part", ["Work"], "Democrat and People's Party MPs on the political road ahead. Policy-risk context.", "Leave at 15.55 for the humanoid robot on Main Stage."]}], "d3m": [{"time": "09.00 - 09.25", "name": "Building Thailand’s Talent for the Industries of Tomorrow สร้างคนให้พร้อม ขับเคลื่อนอุตสาหกรรมแห่งอนาคต", "speakers": ["Professor Dr. Yodchanan Wongsawat — Deputy Prime Minister and Minister of Higher Education, Science, Research and Innovation"], "note": ["go", ["Work", "Personal"], "Deputy PM Yodchanan (MHESI) on building talent for future industries.", ""]}, {"time": "09.25 - 10.15", "name": "Fireside Chat", "speakers": ["Dhanin Chearavanont — Senior Chairman of Charoen Pokphand Group (C.P. Group)", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["must", ["Work"], "Fireside chat with CP's Dhanin Chearavanont. Rare, and the headline of Day 3.", ""]}, {"time": "10.15 - 10.40", "name": "Autonomous Delivery: AI on the Road รถส่งของไร้คนขับ เมื่อ AI ลงสู่ถนนจริง", "speakers": ["Max Zhao — Vice President Head of SEA, Neolix", "Nattha Komolvadhin — News Director, THE STANDARD"], "note": ["go", ["Personal"], "Neolix on autonomous delivery: AI driving on real roads.", ""]}, {"time": "10.40 - 11.05", "name": "COFFEE BREAK", "speakers": [], "note": ["skip", [], "", ""]}, {"time": "11.05 - 11.50", "name": "Putting AI to Work: Productivity, People & Trust ใช้ AI ให้เกิดผล เพิ่มผลิตภาพ พัฒนาคน สร้างความเชื่อมั่น", "speakers": ["Korawad Chearavanont — Executive Chairman and Founder, Amity", "Aman Modi — Managing Director & Partner, Head of BCG Thailand, The Boston Consulting Group (Thailand)", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["must", ["Work"], "Amity's Korawad and BCG Thailand on AI productivity, people and trust. Fits AI adoption at work.", ""]}, {"time": "11.50 - 13.30", "name": "LUNCH BREAK", "speakers": [], "note": ["skip", [], "", ""]}, {"time": "13.10 - 13.55", "name": "Closing Remarks", "speakers": ["Srettha Thavisin — Former Prime Minister", "Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD"], "note": ["go", ["Work"], "Closing remarks by former PM Srettha.", "The official agenda shows this starting at 13.10, inside the 11.50–13.30 lunch. Check the time on the day."]}, {"time": "13.55 - 14.40", "name": "Editors Unfiltered วงเมาท์ บ.ก. เศรษฐกิจไทย เอาไงต่อ?", "speakers": ["Nakarin Wanakijpaibul — CEO and Editor-in-Chief of THE STANDARD", "Nattha Komolvadhin — News Director, THE STANDARD", "Ponlawut Songsakun — News Program Editor, THE STANDARD"], "note": ["alt", ["Work"], "THE STANDARD editors talk about the economy, off-script.", "Clashes with The True Cost of AI."]}], "d3x": [{"time": "10.30 - 11.30", "name": "Beyond Design: Building Thai Creative Brands จากงานดีไซน์สู่แบรนด์ไทยที่แข่งขันได้ในตลาดโลก", "speakers": ["Doonyapol Srichan — MD and Creative Director of PDM BRAND", "Saran Yenpanya — Creative director of 56th studio", "Singh Intrachooto, Ph.D. — Associate Professor, Dept. of Building Innovations", "Premmanat Suwannanon — Founder and CEO of Specspace"], "note": ["part", ["Personal"], "Designers on building Thai creative brands. Follows on from the Invisible Branding talk at a previous summit.", "Join at 10.40, after Autonomous Delivery. Leave at 11.05 for Putting AI to Work."]}, {"time": "11.30 - 11.55", "name": "Reimagining What's Possible for Thailand เมื่อการเมืองพบเทคโนโลยี ปลดล็อกสิ่งที่เป็นไปไม่ได้ให้ประเทศไทย", "speakers": ["Rukchanok Srinork — Member of Parliament from the People’s Party", "Teerachart Kortrakul — Member of Political Working Group, Advisor to the Leader of the Opposition in the House of Representatives, The Secretariat of the House of Representatives", "Piyalitt Ittichaiwong — Committee member of Tech Talents, MHESI", "Papassara Phetnaronk — THE STANDARD"], "note": ["alt", ["Work"], "Politics meets technology, with MHESI's Tech Talents committee.", "Clashes with Putting AI to Work."]}, {"time": "12.30-14.00", "name": "Lunch", "speakers": [], "note": ["skip", [], "", ""]}, {"time": "14.00-14.45", "name": "AI to Reality: The True Cost of AI ใช้ AI ให้คุ้มค่า จากต้นทุนที่มองไม่เห็นสู่ผลลัพธ์ทางธุรกิจ", "speakers": ["Theekapak Sriyukwong — President of Thanachart Insurance", "Chongmas Thayakorn — Vice President Digital Solutions, PTT Oil and Retail Business Public Company Limited", "Nataphong Pithak — Head of Advanced Insights (AI), Bluebik Group Public Company Limited", "Chuencheewan Wongsaeree — Founder of Heal & Seek"], "note": ["must", ["Work"], "The hidden costs of AI and how to make it pay, with Thanachart Insurance and PTT OR. Useful for any AI business case at work.", ""]}, {"time": "14.45-15.30", "name": "Secure & Resilient AI", "speakers": ["Vasupon Thankakan — Chief Operating Officer, Microsoft (Thailand)", "Polnsutee Thanesniratsai — Head of Cybersecurity & Digital Trust, Bluebik Titans Company Limited", "Chuencheewan Wongsaeree — Founder of Heal & Seek"], "note": ["must", ["Work"], "Microsoft Thailand COO and Bluebik Titans on AI security and resilience. Fits AI tool use and IT risk at work.", ""]}]};
+const DAYS=[{k:"d1",l:"Day 1",s:"Wed 4 Nov"},{k:"d2",l:"Day 2",s:"Thu 5 Nov"},{k:"d3",l:"Day 3",s:"Fri 6 Nov"}];
+const TAGS=[["Work","Work"],["Personal","Personal"]];
+const VL={must:"Must",go:"Go",part:"Partial",alt:"Alternative",skip:"Skip"};
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const DATES={d1:"2026-11-04",d2:"2026-11-05",d3:"2026-11-06"};
+// Bangkok wall clock, whatever the device's time zone
+function bkk(){const p=Object.fromEntries(new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Bangkok",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  const date=`${p.year}-${p.month}-${p.day}`;return {date,min:+p.hour*60+ +p.minute,day:Object.keys(DATES).find(k=>DATES[k]===date)||null}}
+let NOW=bkk();
+let st={day:ls.get("day")||"d1",view:ls.get("view")||"plan",tag:null};
+if(NOW.day) st.day=NOW.day;
+if(/^#d[123]$/.test(location.hash)) st.day=location.hash.slice(1);
+const live=()=>NOW.day===st.day;
+const running=s=>live()&&s.start<=NOW.min&&NOW.min<s.end;
+
+const toMin=t=>{const [h,m]=t.trim().split(/[.:]/).map(Number);return h*60+m};
+const fmt=m=>String(Math.floor(m/60)).padStart(2,"0")+"."+String(m%60).padStart(2,"0");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const isBreak=s=>/break|lunch/i.test(s.name)&&!s.speakers.length;
+function splitTitle(n){const i=n.search(/[฀-๿]/);return i>0?[n.slice(0,i).trim().replace(/[:\s]+$/,""),n.slice(i).trim()]:[n,""]}
+
+const S=[];
+for(const [key,list] of Object.entries(DATA)){
+  list.forEach((s,i)=>{const [a,b]=s.time.split("-");const n=s.note||["skip",[],"",""];
+    const [en,th]=splitTitle(s.name);
+    S.push({id:key+i,day:key.slice(0,2),stage:key[2],start:toMin(a),end:toMin(b),en,th,speakers:s.speakers,v:n[0],tags:n[1],why:n[2],tip:n[3],brk:isBreak(s)})});
+}
+const byId=Object.fromEntries(S.map(s=>[s.id,s]));
+const overl=(a,b)=>a.start<b.end&&b.start<a.end;
+const picked=s=>["must","go","part"].includes(s.v)&&!s.brk;
+const stageName=s=>s.stage==="m"?"Main Stage":"X Stage";
+
+function chips(){
+  days.innerHTML=DAYS.map(d=>`<button data-d="${d.k}" aria-pressed="${st.day===d.k}">${d.l}<small>${d.s}</small></button>`).join("");
+  tags.innerHTML=TAGS.map(([k,l])=>`<button class="chip" data-t="${k}" aria-pressed="${st.tag===k}">${l}</button>`).join("");
+  document.getElementById("v-plan").setAttribute("aria-pressed",st.view==="plan");
+  document.getElementById("v-grid").setAttribute("aria-pressed",st.view==="grid");
+}
+function meta(s,showStage=true){
+  return `<div class="meta">${running(s)?'<span class="onnow">On now</span>':""}${showStage?`<span class="stg ${s.stage}">${s.stage==="m"?"Main":"X Stage"}</span>`:""}<span class="v ${s.v}">${VL[s.v]}</span><span>${fmt(s.start)}–${fmt(s.end)}</span>${s.tags.map(t=>`<span class="tg">#${t}</span>`).join("")}</div>`}
+function dimC(s){return st.tag&&!s.tags.includes(st.tag)?" dim":""}
+function cardHTML(s){
+  return `<button class="card ${s.stage}${dimC(s)}" data-id="${s.id}">${meta(s)}<h3>${esc(s.en)}</h3>${s.why?`<p>${esc(s.why)}</p>`:""}${s.tip&&s.v!=="alt"?`<p class="note">↳ ${esc(s.tip)}</p>`:""}</button>`}
+
+function renderPlan(){
+  const day=S.filter(s=>s.day===st.day);
+  const picks=day.filter(picked).sort((a,b)=>a.start-b.start);
+  let h="",put=false;
+  const dEnd=Math.max(...day.map(s=>s.end)), dStart=Math.min(...day.map(s=>s.start));
+  const nowRow=()=>live()?`<div class="nowrow" id="nowmark">Now ${fmt(NOW.min)} BKK</div>`
+    :`<div class="nowrow off" id="nowmark">${fmt(NOW.min)} BKK now (today is ${NOW.day?DAYS.find(d=>d.k===NOW.day).l:"not a forum day"})</div>`;
+  const showNow=NOW.min>=dStart-60&&NOW.min<=dEnd+60;
+  for(const p of picks){
+    if(showNow&&!put&&p.start>NOW.min){h+=nowRow();put=true}
+    const alts=day.filter(o=>o!==p&&!o.brk&&!picked(o)&&overl(o,p)).sort((a,b)=>a.start-b.start);
+    const other=alts.filter(o=>o.stage!==p.stage), same=alts.filter(o=>o.stage===p.stage);
+    const peek=(arr,lab,cls)=>arr.length?`<details class="peek"><summary class="${cls}">${lab}: ${arr.length===1?esc(arr[0].en):arr.length+" sessions"}</summary><div class="alts">${arr.map(cardHTML).join("")}</div></details>`:"";
+    h+=`<div class="slot"><div class="t">${fmt(p.start)}</div><div style="min-width:0">${cardHTML(p)}
+      ${peek(other,"Same time on "+(p.stage==="m"?"X Stage":"Main Stage"),p.stage==="m"?"":"m")}
+      ${peek(same,"Also on "+stageName(p),p.stage==="m"?"m":"")}</div></div>`;
+  }
+  if(showNow&&!put)h+=nowRow();
+  out.innerHTML=h;
+}
+function renderGrid(){
+  const day=S.filter(s=>s.day===st.day);
+  const t0=Math.floor(Math.min(...day.map(s=>s.start))/30)*30, t1=Math.ceil(Math.max(...day.map(s=>s.end))/30)*30;
+  const px=window.innerWidth<520?2.6:2.2, H=(t1-t0)*px;
+  let ax="";for(let m=t0;m<=t1;m+=30)ax+=`<span style="top:${(m-t0)*px}px">${fmt(m)}</span>`;
+  const inR=NOW.min>=t0&&NOW.min<=t1, ny=(NOW.min-t0)*px, off=live()?"":" off";
+  if(inR)ax+=`<b class="nowt" id="nowmark" style="top:${ny}px" title="${live()?"Now":"Time now, on a different day"}">${fmt(NOW.min)}</b>`;
+  const nl=inR?`<div class="nowl${off}" style="top:${ny}px"></div>`:"";
+  const lane=k=>nl+day.filter(s=>s.stage===k).map(s=>{const top=(s.start-t0)*px,h=Math.max((s.end-s.start)*px-2,22);
+    if(s.brk)return `<div class="blk brk ${k}" style="top:${top}px;height:${h}px"><i>${esc(s.en)}</i></div>`;
+    return `<button class="blk ${k}${picked(s)?" pick":""}${dimC(s)}" data-id="${s.id}" style="top:${top}px;height:${h}px"><i>${running(s)?'<span style="color:var(--now)">● now</span> ':""}${fmt(s.start)}${s.v==="must"?' <span class="star">● must</span>':s.v==="part"?" · partial":""}</i><b>${esc(s.en)}</b></button>`}).join("");
+  out.innerHTML=`<div class="grid" style="--hr:${30*px}px"><div></div><div class="lanehead m">Main Stage</div><div class="lanehead x">X Stage</div>
+   <div class="axis" style="height:${H}px">${ax}</div><div class="lane" style="height:${H}px">${lane("m")}</div><div class="lane" style="height:${H}px">${lane("x")}</div></div>
+   <p style="color:var(--muted);font-size:12.5px;margin-top:10px">Filled blocks are in my plan. Outlined blocks are the alternatives. Block height matches session length.</p>`;
+}
+function clockText(){clock.innerHTML=`<b>${fmt(NOW.min)}</b> BKK${NOW.day?"":" · "+(NOW.date<DATES.d1?Math.round((Date.parse(DATES.d1)-Date.parse(NOW.date))/864e5)+" days to go":"forum over")}`}
+function render(){chips();clockText();document.documentElement.style.setProperty("--barh",bar.offsetHeight+"px");st.view==="plan"?renderPlan():renderGrid()}
+
+let lastFocus=null;
+function openSheet(id){
+  const s=byId[id];if(!s)return;lastFocus=document.activeElement;
+  const clash=S.filter(o=>o.day===s.day&&o!==s&&!o.brk&&overl(o,s)).sort((a,b)=>a.start-b.start);
+  sheetin.innerHTML=`<button class="close" id="cls">Close</button>${meta(s)}<h2 id="sh-t">${esc(s.en)}</h2>${s.th?`<p class="th">${esc(s.th)}</p>`:""}
+   ${s.why?`<h4>Why</h4><p style="margin:0">${esc(s.why)}</p>`:""}${s.tip?`<p class="note" style="color:var(--part);margin:6px 0 0">↳ ${esc(s.tip)}</p>`:""}
+   ${s.speakers.length?`<h4>Speakers</h4><ul>${s.speakers.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+   ${clash.length?`<h4>On at the same time</h4><div style="display:flex;flex-direction:column;gap:6px">${clash.map(o=>`<button class="card ${o.stage}" data-id="${o.id}">${meta(o)}<h3>${esc(o.en)}</h3></button>`).join("")}</div>`:""}`;
+  sheet.hidden=scrim.hidden=false;sheet.scrollTop=0;document.getElementById("cls").focus();
+}
+function closeSheet(){sheet.hidden=scrim.hidden=true;lastFocus&&lastFocus.focus&&lastFocus.focus()}
+document.addEventListener("click",e=>{
+  const d=e.target.closest("[data-d]");if(d){st.day=d.dataset.d;ls.set("day",st.day);render();window.scrollTo({top:0});return}
+  const t=e.target.closest("[data-t]");if(t){st.tag=st.tag===t.dataset.t?null:t.dataset.t;render();return}
+  if(e.target.closest("#v-plan")){st.view="plan";ls.set("view","plan");render();return}
+  if(e.target.closest("#v-grid")){st.view="grid";ls.set("view","grid");render();return}
+  if(e.target.closest("#cls")||e.target===scrim){closeSheet();return}
+  const c=e.target.closest("[data-id]");if(c){openSheet(c.dataset.id)}
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!sheet.hidden)closeSheet()});
+window.addEventListener("resize",()=>{if(st.view==="grid")renderGrid()});
+render();
+// on a forum day, open scrolled to the now marker
+if(live()){const m=document.getElementById("nowmark");m&&setTimeout(()=>m.scrollIntoView({block:"center"}),50)}
+// tick every 30 s; re-render only when the minute changes and no detail sheet is open
+setInterval(()=>{const n=bkk();if(n.min===NOW.min&&n.date===NOW.date)return;NOW=n;if(sheet.hidden){const y=window.scrollY;render();window.scrollTo(0,y)}else clockText()},30000);
+</script>
+
+</body>
+</html>
